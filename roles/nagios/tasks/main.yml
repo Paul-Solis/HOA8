@@ -1,0 +1,45 @@
+---
+ - name: Install Nagios 
+   tags: ubuntu
+   apt:
+     name: nagios4
+     state: latest
+     update_cache: yes
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Ensure Nagios is started and enabled
+   service:
+     name: nagios4
+     state: started
+     enabled: true 
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Enable EPEL repo
+   yum:
+     name: epel-release
+     state: present
+   when: ansible_distribution == "CentOS"
+
+ - name: install nagios core and essential
+   yum:
+     name: 
+      - nagios
+      - nagios-plugins
+      - nagios-plugins-disk
+      - nagios-plugins-http
+      - nagios-plugins-load
+      - nagios-plugins-ping
+      - nagios-plugins-procs
+      - nagios-plugins-users
+     state: present
+   when: ansible_distribution == "CentOS"
+
+ - name: Ensure Nagios service is started and enabled
+   service:
+     name: nagios
+     state: started
+     enabled: true 
+   when: ansible_distribution == "CentOS"
+
+
+
